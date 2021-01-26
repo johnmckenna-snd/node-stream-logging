@@ -1,0 +1,36 @@
+{
+  "name": "stream-logging",
+  "version": "1.0.0",
+  "description": "pulls from the node-stream api",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node server.js",
+    "test": "echo \"no test\"",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel server.js -d build --presets=@babel/preset-env",
+    "build-src": "babel src -d build/src --presets=@babel/preset-env --plugins=@babel/plugin-transform-async-to-generator",
+    "build": "npm run clean && npm run build-server && npm run build-src",
+    "lint": "eslint --quiet server.js  && eslint --quiet src/**",
+    "start": "node build/server.js"
+  },
+  "author": "john mckenna",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.0",
+    "node": "^14.5.0",
+    "node-cron": "^2.0.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "eslint": "^7.10.0",
+    "nodemon": "^2.0.7"
+  }
+}
