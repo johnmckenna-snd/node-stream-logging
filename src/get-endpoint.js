@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getEndpoint = async ({ipAddress, endpoint}) => {
-	console.log(`GET request to ${ipAddress}, ${endpoint}`);
+	console.log(`GET request to ${ipAddress}${endpoint}`);
 
 	try {
 		const response = await axios.get(`${ipAddress}${endpoint}`);
