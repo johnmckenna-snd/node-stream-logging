@@ -26,11 +26,11 @@ const logNewServerData = async () => {
 	const newData = await getServerStatus({ ipAddress: streamingServerIP });
 	console.log(`newData is`, newData);
 };
-logNewServerData();
-// cron.schedule('*/5 * * * *', () => {
-	// console.log(`cronJob @ ${new Date()}`);
-	// logNewServerData();
-// });
+
+cron.schedule('*/5 * * * *', () => {
+	console.log(`cronJob @ ${new Date()}`);
+	logNewServerData();
+});
 
 app.listen(port, (e) => {
 	if (e) throw Error(`Could not start the server on port: ${port}`);
