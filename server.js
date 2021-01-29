@@ -5,7 +5,7 @@ import cron from 'node-cron';
 import 'dotenv/config';
 import { getServerStatus } from './src/stream-api-requester';
 
-const port = process.env.PORT || 4000;
+const port = 4000;
 const db = 'stream_logging';
 const collection = 'stream_logs';
 const streamingServerIP = 'http://10.0.0.117:8000';
