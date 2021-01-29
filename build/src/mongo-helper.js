@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.serverDataWrite = void 0;
+exports.mongoDBInsertOne = void 0;
 
 var _mongodb = require("mongodb");
 
@@ -24,7 +24,7 @@ var dbConnect = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            url = process.env.ATLAS_URI || 'mongodb://127.0.0.1:27017/';
+            url = process.env.MONGO_DB_URL || 'mongodb://127.0.0.1:27017/';
             client = new _mongodb.MongoClient(url, {
               useNewUrlParser: true,
               useUnifiedTopology: true
@@ -49,15 +49,15 @@ var dbConnect = /*#__PURE__*/function () {
   };
 }();
 
-var serverDataWrite = /*#__PURE__*/function () {
+var mongoDBInsertOne = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref3) {
-    var targetDB, targetCollection, newData, client, db, result;
+    var targetDB, targetCollection, dataToInsert, client, db, result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            targetDB = _ref3.targetDB, targetCollection = _ref3.targetCollection, newData = _ref3.newData;
-            console.log("Writing new data: ".concat(newData));
+            targetDB = _ref3.targetDB, targetCollection = _ref3.targetCollection, dataToInsert = _ref3.dataToInsert;
+            console.log("Writing new data: ".concat(dataToInsert));
             _context2.prev = 2;
             _context2.next = 5;
             return dbConnect();
@@ -67,13 +67,11 @@ var serverDataWrite = /*#__PURE__*/function () {
             db = client.db(targetDB);
             console.log("connected to db: ".concat(db));
             _context2.next = 10;
-            return db.collection(targetCollection).insertOne(newData);
+            return db.collection(targetCollection).insertOne(dataToInsert);
 
           case 10:
             result = _context2.sent;
-            console.log("serverDataWrite result: ".concat(result));
-            _context2.next = 17;
-            break;
+            return _context2.abrupt("return", result.result);
 
           case 14:
             _context2.prev = 14;
@@ -88,9 +86,9 @@ var serverDataWrite = /*#__PURE__*/function () {
     }, _callee2, null, [[2, 14]]);
   }));
 
-  return function serverDataWrite(_x) {
+  return function mongoDBInsertOne(_x) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-exports.serverDataWrite = serverDataWrite;
+exports.mongoDBInsertOne = mongoDBInsertOne;

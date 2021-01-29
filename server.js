@@ -24,7 +24,7 @@ app.get('/health', (req, res) => {
 	res.end('Healthy, daddy!');
 });
 
-cron.schedule('* * * * *', () => {
+cron.schedule('*/5 * * * *', () => {
 	console.log(`cronJob @ ${new Date()}`);
 	logNewServerData({
 		streamingServerIP,

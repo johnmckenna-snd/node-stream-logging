@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getServerStatus = void 0;
+exports.getEndpoint = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -13,31 +13,31 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var getServerStatus = /*#__PURE__*/function () {
+var getEndpoint = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref2) {
-    var ipAddress, newData;
+    var ipAddress, endpoint, response, errorReturn;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            ipAddress = _ref2.ipAddress;
-            console.log("getServerStatus @ ".concat(new Date()));
+            ipAddress = _ref2.ipAddress, endpoint = _ref2.endpoint;
+            console.log("GET request to ".concat(ipAddress).concat(endpoint));
             _context.prev = 2;
             _context.next = 5;
-            return _axios["default"].get("".concat(ipAddress, "/api/server"));
+            return _axios["default"].get("".concat(ipAddress).concat(endpoint));
 
           case 5:
-            newData = _context.sent;
-            console.log("get request to ".concat(ipAddress, " successful!"));
-            return _context.abrupt("return", newData.data);
+            response = _context.sent;
+            console.log("Successful.");
+            return _context.abrupt("return", response.data);
 
           case 10:
             _context.prev = 10;
             _context.t0 = _context["catch"](2);
-            console.log(_context.t0);
-
-          case 13:
-            ;
+            errorReturn = {
+              'error': _context.t0
+            };
+            return _context.abrupt("return", errorReturn);
 
           case 14:
           case "end":
@@ -47,9 +47,9 @@ var getServerStatus = /*#__PURE__*/function () {
     }, _callee, null, [[2, 10]]);
   }));
 
-  return function getServerStatus(_x) {
+  return function getEndpoint(_x) {
     return _ref.apply(this, arguments);
   };
 }();
 
-exports.getServerStatus = getServerStatus;
+exports.getEndpoint = getEndpoint;
