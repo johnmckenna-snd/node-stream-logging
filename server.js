@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cron from 'node-cron';
 import 'dotenv/config';
+import regeneratorRuntime from 'regenerator-runtime';
 import { getServerStatus } from './src/stream-api-requester';
 
 const port = 4000;
