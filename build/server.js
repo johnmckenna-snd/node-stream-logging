@@ -45,7 +45,7 @@ var logNewServerData = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("logNewServerData @ ".concat(new Date()));
+            console.log("----------   logNewServerData @ ".concat(new Date(), "   ------------"));
             _context.next = 3;
             return (0, _streamApiRequester.getServerStatus)({
               ipAddress: streamingServerIP

@@ -4,12 +4,13 @@ import cors from 'cors';
 import cron from 'node-cron';
 import 'dotenv/config';
 import regeneratorRuntime from 'regenerator-runtime';
-import { getServerStatus } from './src/stream-api-requester';
+import { getEndpoint } from './src/get-endpoint';
 
 const port = 4000;
 const db = 'stream_logging';
 const collection = 'stream_logs';
 const streamingServerIP = 'http://10.0.0.117:8000';
+const serverStatusEndpoint = '/api/server';
 
 const app = express();
 app.use(cors());
@@ -23,15 +24,20 @@ app.get('/health', (req, res) => {
 });
 
 const logNewServerData = async () => {
-	console.log(`logNewServerData @ ${new Date()}`);
-	const newData = await getServerStatus({ ipAddress: streamingServerIP });
-	console.log(`newData is`, newData);
+	console.log(`----------   logNewServerData @ ${new Date()}   ------------`);
+	const serverStatus = await getEndpoint({
+		ipAddress: streamingServerIP,
+		endpoint: serverStatusEndpoint
+	});
+	console.log(`serverStatus is`, serverStatus);
 };
 
-cron.schedule('*/5 * * * *', () => {
-	console.log(`cronJob @ ${new Date()}`);
-	logNewServerData();
-});
+logNewServerData();
+
+// cron.schedule('*/5 * * * *', () => {
+	// console.log(`cronJob @ ${new Date()}`);
+	// logNewServerData();
+// });
 
 app.listen(port, (e) => {
 	if (e) throw Error(`Could not start the server on port: ${port}`);
