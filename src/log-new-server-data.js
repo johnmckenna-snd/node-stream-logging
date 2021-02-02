@@ -1,13 +1,14 @@
 import { getEndpoint } from './get-endpoint';
 import { mongoDBInsertOne } from './mongo-helper';
+import 'dotenv/config';
 
-export const logNewServerData = async ({
-	streamingServerIP,
-	serverStatusEndpoint,
-	serverStreamsEndpoint,
-	db,
-	collection
-}) => {
+const db = process.env.DB;
+const collection = process.env.COLLECTION;
+const streamingServerIP = process.env.STREAMING_SERVER_IP;
+const serverStatusEndpoint = process.env.SERVER_STATUS_ENDPOINT;
+const serverStreamsEndpoint = process.env.SERVER_STREAMS_ENDPOINT;
+
+export const logNewServerData = async () => {
 	console.log(`----------   logNewServerData @ ${new Date()}   ------------`);
 
 	const serverStatus = await getEndpoint({

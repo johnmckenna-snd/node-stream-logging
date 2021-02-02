@@ -5,19 +5,17 @@ import cron from 'node-cron';
 import 'dotenv/config';
 import regeneratorRuntime from 'regenerator-runtime';
 import { logNewServerData } from './src/log-new-server-data';
+import router from './routes/index';
 
-const port = 4000;
-const db = 'stream_logging';
-const collection = 'stream_logs';
-const streamingServerIP = 'http://10.0.0.117:8000';
-const serverStatusEndpoint = '/api/server';
-const serverStreamsEndpoint = '/api/streams';
+const port = process.env.PORT || 4000;
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(router);
 
 app.get('/health', (req, res) => {
 	res.writeHead(200, 'OK', {'Content-Type': 'text/plain'});
@@ -26,13 +24,7 @@ app.get('/health', (req, res) => {
 
 cron.schedule('*/5 * * * *', () => {
 	console.log(`cronJob @ ${new Date()}`);
-	logNewServerData({
-		streamingServerIP,
-		serverStatusEndpoint,
-		serverStreamsEndpoint,
-		db,
-		collection
-	});
+	logNewServerData();
 });
 
 app.listen(port, (e) => {
