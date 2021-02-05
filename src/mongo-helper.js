@@ -25,3 +25,16 @@ export const mongoDBInsertOne = async ({targetDB, targetCollection, dataToInsert
 		console.log(err);
 	}
 };
+
+export const mongoDBGetAllDocuments = async ({targetDB, targetCollection}) => {
+	console.log('Getting all the data. all of it. all at once.');
+	try {
+		const client = await dbConnect();
+		const db = client.db(targetDB);
+		console.log(`connected to db: ${db}`);
+		const result = await db.collection(targetCollection).find({}).toArray();
+		return result;
+	} catch (err) {
+		console.log(err);
+	};
+};
