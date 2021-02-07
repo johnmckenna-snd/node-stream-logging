@@ -13,7 +13,7 @@ router.get('/get-all-data', async (req, res) => {
 		targetCollection: collection
 	});
 	console.log('found', data.length, 'documents');
-	const result = res.send({'get-all-data': data});
+	const result = res.send({data: data});
 	console.log('/get-all-data called. status: ', result.statusMessage);
 });
 
