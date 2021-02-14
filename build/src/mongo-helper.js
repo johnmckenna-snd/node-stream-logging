@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mongoDBInsertOne = void 0;
+exports.mongoDBGetLastHour = exports.mongoDBGetAllDocuments = exports.mongoDBInsertOne = void 0;
 
 var _mongodb = require("mongodb");
 
@@ -92,3 +92,123 @@ var mongoDBInsertOne = /*#__PURE__*/function () {
 }();
 
 exports.mongoDBInsertOne = mongoDBInsertOne;
+
+var mongoDBGetAllDocuments = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref5) {
+    var targetDB, targetCollection, client, db, result;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            targetDB = _ref5.targetDB, targetCollection = _ref5.targetCollection;
+            console.log('Getting all the data. all of it. all at once.');
+            _context3.prev = 2;
+            _context3.next = 5;
+            return dbConnect();
+
+          case 5:
+            client = _context3.sent;
+            db = client.db(targetDB);
+            console.log("connected to db: ".concat(db));
+            _context3.next = 10;
+            return db.collection(targetCollection).find({}).toArray();
+
+          case 10:
+            result = _context3.sent;
+            return _context3.abrupt("return", result);
+
+          case 14:
+            _context3.prev = 14;
+            _context3.t0 = _context3["catch"](2);
+            console.log(_context3.t0);
+
+          case 17:
+            ;
+
+          case 18:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[2, 14]]);
+  }));
+
+  return function mongoDBGetAllDocuments(_x2) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+exports.mongoDBGetAllDocuments = mongoDBGetAllDocuments;
+
+var mongoDBGetLastHour = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref7) {
+    var targetDB, targetCollection, ONE_HOUR, currentTime, oneHourAgo, oneHourAgoID, findStage, dateConversionStage, sortStage, client, db, result;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            targetDB = _ref7.targetDB, targetCollection = _ref7.targetCollection;
+            console.log("mongoDBGetLastHour from db: ".concat(targetDB, " and collection: ").concat(targetCollection));
+            ONE_HOUR = 60 * 60 * 1000;
+            currentTime = new Date();
+            oneHourAgo = new Date(currentTime.getTime() - ONE_HOUR);
+            console.log('oneHourAgo', oneHourAgo);
+            oneHourAgoID = (0, _mongodb.ObjectID)(Math.floor(oneHourAgo / 1000).toString(16) + '0000000000000000');
+            console.log('oneHourAgoID', oneHourAgoID);
+            findStage = {
+              '$match': {
+                '_id': {
+                  '$gt': oneHourAgoID
+                }
+              }
+            };
+            dateConversionStage = {
+              '$addFields': {
+                'date': {
+                  '$toDate': '$_id'
+                }
+              }
+            };
+            sortStage = {
+              '$sort': {
+                'date': 1
+              }
+            };
+            _context4.prev = 11;
+            _context4.next = 14;
+            return dbConnect();
+
+          case 14:
+            client = _context4.sent;
+            db = client.db(targetDB);
+            console.log("connected to db: ".concat(db));
+            _context4.next = 19;
+            return db.collection(targetCollection).aggregate([findStage, dateConversionStage, sortStage]).toArray();
+
+          case 19:
+            result = _context4.sent;
+            console.log("found ".concat(result.length, " documents"));
+            return _context4.abrupt("return", result);
+
+          case 24:
+            _context4.prev = 24;
+            _context4.t0 = _context4["catch"](11);
+            console.log(_context4.t0);
+
+          case 27:
+            ;
+
+          case 28:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[11, 24]]);
+  }));
+
+  return function mongoDBGetLastHour(_x3) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.mongoDBGetLastHour = mongoDBGetLastHour;

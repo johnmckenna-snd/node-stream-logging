@@ -9,7 +9,8 @@
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel server.js -d build --presets=@babel/preset-env",
     "build-src": "babel src -d build/src --presets=@babel/preset-env --plugins=@babel/plugin-transform-async-to-generator",
-    "build": "npm run clean && npm run build-server && npm run build-src",
+		"build-routes": "babel routes -d build/routes --presets=@babel/preset-env --plugins=@babel/plugin-transform-async-to-generator", 
+    "build": "npm run clean && npm run build-server && npm run build-src && npm run build-routes",
     "lint": "eslint --quiet server.js  && eslint --quiet src/**",
     "start": "node build/server.js"
   },
